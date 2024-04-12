@@ -1,0 +1,19 @@
+name: CI Pipeline
+
+on:
+  repository_dispatch:
+    types: [trigger-ci]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Example of using the JWT token within the pipeline
+      - name: Use JWT Token
+        run: echo "Token: ${{ github.event.client_payload.token }}"
+
+      # Add more steps as needed for your CI pipeline
