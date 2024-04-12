@@ -1,18 +1,12 @@
-name: CI Pipeline
-
 on:
   repository_dispatch:
-    types: trigger-ci
+    types: [test_result]
 
 jobs:
-  build:
+  run_if_failure:
+    if: ${{ !github.event.client_payload.passed }}
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Use JWT Token
-        run: echo "Token: ${{ github.event.client_payload.token }}"
-
-      # Add more steps as needed for your CI pipeline
+      - env:
+          MESSAGE: ${{ github.event.client_payload.message }}
+        run: echo $MESSAGE
